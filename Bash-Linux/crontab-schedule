@@ -1,0 +1,9 @@
+# ==============================================================================
+# System Automation Schedule (Cron Jobs)
+# ==============================================================================
+# Format: 
+# m (Minute) | h (Hour) | dom (Day of Month) | mon (Month) | dow (Day of Week) | command
+# ==============================================================================
+
+# Execute automated directory backup daily at midnight (00:00)
+0 0 * * * /usr/local/bin/backup.sh /home/project/source /home/project/backup

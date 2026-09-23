@@ -22,4 +22,4 @@ This folder contains shell scripts developed to automate routine system administ
 
 3. Run the script:
    ```bash
-  ./backup.sh
+   ./backup.sh

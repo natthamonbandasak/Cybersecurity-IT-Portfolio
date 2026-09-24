@@ -2,8 +2,8 @@
 
 # =====================================================================
 # Script Name: security_log_scanner.sh
-# Description: A lightweight Bash script to scan system logs for 
-#              failed login attempts, errors, and potential security threats.
+# Description: A security utility to check file integrity (SHA-256 Hash),
+#              count total entries, and scan logs for potential threats.
 # Author: Security Analyst Portfolio Project
 # =====================================================================
 
@@ -22,14 +22,20 @@ if [ ! -f "$LOG_FILE" ]; then
 fi
 
 echo "====================================================="
-echo "[+] Starting Security Log Analysis on: $LOG_FILE"
+echo "[+] Starting Security Analysis on: $LOG_FILE"
 echo "====================================================="
 
-# 1. Count total log entries
+# 1. File Integrity Check: Generate and display SHA-256 Hash
+echo "[*] Calculating File Integrity (SHA-256 Hash)..."
+FILE_HASH=$(sha256sum "$LOG_FILE" | awk '{print $1}')
+echo "[+] SHA-256 Hash: $FILE_HASH"
+echo "-----------------------------------------------------"
+
+# 2. Count total log entries
 TOTAL_LINES=$(wc -l < "$LOG_FILE")
 echo "[*] Total Log Entries: $TOTAL_LINES"
 
-# 2. Count failed login or error attempts
+# 3. Count failed login or error attempts
 FAILED_COUNT=$(grep -i -E "fail|error|unauthorized" "$LOG_FILE" | wc -l)
 echo "[!] Potential Threats / Errors Found: $FAILED_COUNT"
 
@@ -37,9 +43,9 @@ echo "-----------------------------------------------------"
 echo "[+] Summary of Suspicious Events:"
 echo "-----------------------------------------------------"
 
-# 3. Display matching suspicious lines (limited to top 10 for readability)
+# 4. Display matching suspicious lines (limited to top 10 for readability)
 grep -i -E "fail|error|unauthorized" "$LOG_FILE" | head -n 10
 
 echo "====================================================="
-echo "[+] Scan Completed Successfully."
+echo "[+] Scan & Integrity Check Completed Successfully."
 echo "====================================================="
